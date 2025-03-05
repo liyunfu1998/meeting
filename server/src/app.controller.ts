@@ -1,5 +1,6 @@
 import { Controller, Get, SetMetadata } from '@nestjs/common';
 import { AppService } from './app.service';
+import { RequireLogin, UserInfo } from './custom.decorator';
 
 @Controller()
 export class AppController {
@@ -13,7 +14,16 @@ export class AppController {
   }
 
   @Get('bbb')
+  @RequireLogin() // 等价于 @SetMetadata('require-login', true)
   bbbb() {
     return 'bbbb';
+  }
+
+  @Get('ccc')
+  @RequireLogin()
+  ccc(@UserInfo('username') username: string, @UserInfo() userInfo) {
+    console.log('username', username);
+    console.log('userInfo', userInfo);
+    return 'ccc';
   }
 }
