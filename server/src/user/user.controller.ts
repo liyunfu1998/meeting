@@ -182,6 +182,7 @@ export class UserController {
       throw new UnauthorizedException('token已失效， 请重新登录');
     }
   }
+
   @Get('init-data')
   async initData() {
     await this.userService.initData();
