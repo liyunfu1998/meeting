@@ -26,4 +26,9 @@ export class AppController {
     console.log('userInfo', userInfo);
     return 'ccc';
   }
+
+  @Get()
+  getHello(): string {
+    return this.appService.getHello();
+  }
 }
