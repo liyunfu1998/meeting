@@ -199,6 +199,27 @@ export class UserService {
     }
   }
 
+  async freezeUserById(id: number) {
+    const user = await this.userRepository.findOneBy({
+      id,
+    });
+    user!.isFrozen = true;
+    await this.userRepository.save(user as any);
+  }
+
+  async findUsersByPage(pageNo: number, pageSize: number) {
+    const skipCount = (pageNo - 1) * pageSize;
+
+    const [users, totalCount] = await this.userRepository.findAndCount({
+      skip: skipCount,
+      take: pageSize,
+    });
+
+    return {
+      users,
+      totalCount,
+    };
+  }
   async initData() {
     const user1 = new User();
     user1.username = 'zhangsan';

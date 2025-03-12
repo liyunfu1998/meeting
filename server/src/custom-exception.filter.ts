@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { Response } from 'express';
 
-@Catch()
+@Catch(HttpException)
 export class CustomExceptionFilter implements ExceptionFilter {
   catch(exception: HttpException, host: ArgumentsHost) {
     const response = host.switchToHttp().getResponse<Response>();
@@ -17,8 +17,8 @@ export class CustomExceptionFilter implements ExceptionFilter {
     response
       .json({
         code: exception.getStatus(),
-        menubar: 'fail',
-        data: res?.message?.join(',') || exception.message,
+        message: 'fail',
+        data: res?.message?.join ? res?.message?.join(',') : exception.message,
       })
       .end();
   }
