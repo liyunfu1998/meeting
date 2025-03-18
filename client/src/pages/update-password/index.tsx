@@ -2,7 +2,7 @@ import { Button, Form, Input, message } from "antd";
 import { useForm } from "antd/es/form/Form";
 import "./index.css";
 import { useCallback } from "react";
-import { updatePassword, updatePasswordCaptcha } from "../../request/request";
+import { updatePassword, updatePasswordCaptcha } from "../../request/apis";
 import { useNavigate } from "react-router-dom";
 
 export interface UpdatePassword {
@@ -38,7 +38,7 @@ export default function UpdatePassword() {
     } else {
       message.error(data || "系统繁忙，请稍后再试");
     }
-    console.log(values);
+
   }, []);
 
   const sendCaptcha = useCallback(async function () {
