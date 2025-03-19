@@ -7,7 +7,7 @@ import { InvokeRecordInterceptor } from './invoke-record.interceptor';
 import { CustomExceptionFilter } from './custom-exception.filter';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { NestExpressApplication } from '@nestjs/platform-express';
-
+import { UnloginFilter } from './unlogin.filter';
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
@@ -15,6 +15,7 @@ async function bootstrap() {
   app.useGlobalInterceptors(new FormatResponseInterceptor());
   app.useGlobalInterceptors(new InvokeRecordInterceptor());
   app.useGlobalFilters(new CustomExceptionFilter());
+  app.useGlobalFilters(new UnloginFilter());
   app.enableCors();
   app.useStaticAssets('uploads', {
     prefix: '/uploads',
