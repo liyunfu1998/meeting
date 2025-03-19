@@ -1,4 +1,4 @@
-import { Button, Form, Input, message } from "antd";
+import { Button, DraggerProps, Form, Input, message } from "antd";
 import { useForm } from "antd/es/form/Form";
 import { useCallback, useEffect } from "react";
 import "./index.css";
@@ -8,6 +8,8 @@ import {
   updateInfo,
   updateUserInfoCaptcha,
 } from "../../request/apis";
+import Dragger from "antd/es/upload/Dragger";
+import { InboxOutlined } from "@ant-design/icons";
 
 export interface UserInfo {
   headPic: string;
@@ -76,8 +78,9 @@ export function UpdateInfo() {
           label="头像"
           name="headPic"
           rules={[{ required: true, message: "请输入头像!" }]}
+          shouldUpdate
         >
-          <Input />
+          <HeadPicUpload></HeadPicUpload>
         </Form.Item>
 
         <Form.Item
@@ -119,5 +122,50 @@ export function UpdateInfo() {
         </Form.Item>
       </Form>
     </div>
+  );
+}
+
+interface HeadPicUploadProps {
+  value?: string;
+  onChange?: (value: unknown) => void;
+}
+let onChange: (value: unknown) => void;
+
+const props: DraggerProps = {
+  name: "file",
+  action: "http://localhost:3000/user/upload",
+  onChange(info) {
+    const { status } = info.file;
+    if (status === "done") {
+      onChange(info.file.response.data);
+      message.success(`${info.file.name} 文件上传成功`);
+    } else if (status === "error") {
+      message.error(`${info.file.name} 文件上传失败`);
+    }
+  },
+};
+
+const dragger = (
+  <Dragger {...props}>
+    <p className="ant-upload-drag-icon">
+      <InboxOutlined />
+    </p>
+    <p className="ant-upload-text">点击或拖拽文件到这个区域来上传</p>
+  </Dragger>
+);
+export function HeadPicUpload(props: HeadPicUploadProps) {
+  onChange = props.onChange!;
+  return props?.value ? (
+    <div>
+      <img
+        src={"http://localhost:3000/" + props.value}
+        alt="头像"
+        width="100"
+        height="100"
+      />
+      {dragger}
+    </div>
+  ) : (
+    <div>{dragger}</div>
   );
 }
