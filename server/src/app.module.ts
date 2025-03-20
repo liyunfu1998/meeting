@@ -14,6 +14,8 @@ import { JwtModule } from '@nestjs/jwt';
 import { APP_GUARD } from '@nestjs/core';
 import { LoginGuard } from './login.guard';
 import { PermissionGuard } from './permission.guard';
+import { MeetingRoomModule } from './meeting-room/meeting-room.module';
+import { MeetingRoom } from './meeting-room/entities/meeting-room.entity';
 @Module({
   imports: [
     TypeOrmModule.forRootAsync({
@@ -27,7 +29,7 @@ import { PermissionGuard } from './permission.guard';
           database: configService.get('mysql_server_database'), // 要连接的数据库名称
           synchronize: true, // 自动同步实体到数据库表结构
           logging: true, // 启用SQL查询日志记录
-          entities: [User, Role, Permission], // 实体类数组，用于ORM映射
+          entities: [User, Role, Permission, MeetingRoom], // 实体类数组，用于ORM映射
           poolSize: 10, // 连接池大小设置
           connectorPackage: 'mysql2', // 使用mysql2作为连接器
           extra: {
@@ -59,6 +61,7 @@ import { PermissionGuard } from './permission.guard';
     UserModule,
     RedisModule,
     EmailModule,
+    MeetingRoomModule,
   ],
   controllers: [AppController],
   providers: [
