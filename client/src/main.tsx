@@ -7,6 +7,9 @@ import UpdatePassword from "./pages/update-password";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Index from "./pages/index";
 import { UpdateInfo } from "./pages/update_info";
+import { Menu } from "./pages/menu";
+import MeetingRoomList from "./pages/meeting-room-list";
+import BookingHistory from "./pages/booking-history";
 
 const routes = [
   {
@@ -17,6 +20,24 @@ const routes = [
       {
         path: "update_info",
         element: <UpdateInfo />,
+      },
+      {
+        path: "/",
+        element: <Menu />,
+        children: [
+          {
+            path: "/",
+            element: <MeetingRoomList />,
+          },
+          {
+            path: "meeting_room_list",
+            element: <MeetingRoomList />,
+          },
+          {
+            path: "booking_history",
+            element: <BookingHistory />,
+          },
+        ],
       },
     ],
   },
@@ -34,7 +55,7 @@ const routes = [
   },
 ];
 
-const router = createBrowserRouter(routes);
+export const router = createBrowserRouter(routes);
 
 createRoot(document.getElementById("root")!).render(
   <RouterProvider router={router} />
