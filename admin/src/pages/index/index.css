@@ -12,7 +12,7 @@
   padding: 0 20px;
 }
 #index-container h1 {
-  margin: 0;
+  margin: 0;    
 }
 
 #index-container .icon {
@@ -21,4 +21,8 @@
 }
 #index-container .body {
   flex: 1;
+}
+#index-container .sys_name {
+    text-decoration: none;
+    color: #000;
 }
